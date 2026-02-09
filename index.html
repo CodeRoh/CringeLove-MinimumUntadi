@@ -18,7 +18,7 @@ body {
   overflow: hidden;
 }
 
-/* BACKGROUND HEARTS */
+/* HEARTS */
 .heart {
   position: fixed;
   bottom: -30px;
@@ -117,7 +117,6 @@ h1 {
 .yes-overlay img {
   width: 260px;
   border-radius: 20px;
-  box-shadow: 0 20px 40px rgba(0,0,0,0.4);
 }
 
 .yes-text {
@@ -139,11 +138,16 @@ h1 {
   </div>
 </div>
 
+<audio id="noSound" src="no-sound.mp3"></audio>
+
 <script>
 const noBtn = document.getElementById("noBtn");
 const yesBtn = document.getElementById("yesBtn");
+const noSound = document.getElementById("noSound");
 
-/* FLOATING HEARTS (background & celebration) */
+let noAttempts = 0;
+
+/* HEARTS */
 function spawnHeart() {
   const heart = document.createElement("div");
   heart.className = "heart";
@@ -177,13 +181,21 @@ const positions = [
 
 /* MOVE NO */
 function moveNo() {
+  noAttempts++;
+
+  if (noAttempts > 1) {
+    noSound.currentTime = 0;
+    noSound.play().catch(() => {});
+  }
+
   const pos = positions[Math.floor(Math.random() * positions.length)];
   noBtn.style.left = pos.x + "px";
   noBtn.style.top = pos.y + "px";
+
   showText();
 }
 
-/* ONE TEXT ONLY */
+/* SINGLE TEXT */
 function showText() {
   const existing = noBtn.querySelector(".no-text");
   if (existing) existing.remove();
@@ -204,18 +216,17 @@ noBtn.addEventListener("touchstart", e => {
   moveNo();
 });
 
-/* YES CLICK – CUTE CELEBRATION */
+/* YES CLICK — BRAHMANANDAM MOMENT */
 yesBtn.addEventListener("click", () => {
   const overlay = document.createElement("div");
   overlay.className = "yes-overlay";
   overlay.innerHTML = `
-    <img src="https://media.giphy.com/media/l4FGpP4lxGGgK5CBW/giphy.gif">
-    <div class="yes-text">YAYYY 💞<br>Valentine secured ❤️</div>
+    <img src="https://media.giphy.com/media/3oriO0OEd9QIDdllqo/giphy.gif">
+    <div class="yes-text">Ayyo ❤️😂<br>Valentine locked!</div>
   `;
   document.body.appendChild(overlay);
 
-  // Extra hearts burst
-  for (let i = 0; i < 25; i++) {
+  for (let i = 0; i < 30; i++) {
     setTimeout(spawnHeart, i * 120);
   }
 });
