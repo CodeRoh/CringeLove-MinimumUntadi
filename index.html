@@ -115,13 +115,11 @@ h1 {
   z-index: 999;
 }
 
-/* COMPRESSED GIF DISPLAY */
+/* CAT GIF */
 .yes-overlay img {
-  width: 200px;          /* visually compressed */
+  width: 200px;
   max-width: 80%;
   border-radius: 16px;
-  image-rendering: auto;
-  will-change: transform;
 }
 
 .yes-text {
@@ -144,16 +142,14 @@ h1 {
 </div>
 
 <!-- AUDIO -->
-<audio id="noSound" preload="auto">
+<audio id="yesSound" preload="auto">
   <source src="fahhhhh.mp3" type="audio/mpeg">
 </audio>
 
 <script>
 const noBtn = document.getElementById("noBtn");
 const yesBtn = document.getElementById("yesBtn");
-const noSound = document.getElementById("noSound");
-
-let noCount = 0;
+const yesSound = document.getElementById("yesSound");
 
 /* HEART SPAWNER */
 function spawnHeart() {
@@ -166,25 +162,12 @@ function spawnHeart() {
 }
 setInterval(spawnHeart, 700);
 
-/* TELANGANA TEXTS */
+/* UPDATED TELUGU TEXTS */
 const texts = [
-  "NO button only naam ke vaasthe 😂",
-  "Endi ra idi 😏",
-  "Ala kaadu amma 😂",
-  "YES nokku ra baby ❤️",
-  "Lite teesko 🙃",
-  "Ayyo almost 😄",
-  "Ee NO button pani kaadu!",
-  "Try chesthunnav ga 😂",
-  "Heart already YES annadi ❤️"
-];
-
-/* BRAHMANANDAM GIFS — LOCKED */
-const brahmanandamGifs = [
-  "https://media.tenor.com/_yZlR5J9G1QAAAAC/brahmanandam-laugh.gif",
-  "https://media.tenor.com/Z8f9QH0z4nEAAAAC/brahmanandam-comedy.gif",
-  "https://media.tenor.com/9m2Q0g9l6xUAAAAC/brahmanandam-reaction.gif",
-  "https://media.tenor.com/9k1kX7c8vXAAAAAC/brahmanandam-funny.gif"
+  "No cheppe chance ea ledu → ❌",
+  "abba kamal hassan NO anta, lol → 😂",
+  "Gammuna YES kottu → 👉",
+  "Saal iga enni saarlu click chesthav, yes kottu → 😤"
 ];
 
 /* SAFE POSITIONS */
@@ -196,18 +179,10 @@ const positions = [
 ];
 
 /* MOVE NO */
-function moveNo(userTriggered) {
-  noCount++;
-
-  if (userTriggered && noCount >= 2) {
-    noSound.currentTime = 0;
-    noSound.play().catch(() => {});
-  }
-
+function moveNo() {
   const pos = positions[Math.floor(Math.random() * positions.length)];
   noBtn.style.left = pos.x + "px";
   noBtn.style.top = pos.y + "px";
-
   showText();
 }
 
@@ -225,23 +200,23 @@ function showText() {
 }
 
 /* EVENTS */
-noBtn.addEventListener("mouseenter", () => moveNo(false));
-noBtn.addEventListener("mousedown", () => moveNo(true));
+noBtn.addEventListener("mouseenter", moveNo);
+noBtn.addEventListener("mousedown", moveNo);
 noBtn.addEventListener("touchstart", e => {
   e.preventDefault();
-  moveNo(true);
+  moveNo();
 });
 
-/* YES CLICK — ONLY BRAHMANANDAM */
+/* YES CLICK — SOUND + CAT GIF */
 yesBtn.addEventListener("click", () => {
-  const gif =
-    brahmanandamGifs[Math.floor(Math.random() * brahmanandamGifs.length)];
+  yesSound.currentTime = 0;
+  yesSound.play().catch(() => {});
 
   const overlay = document.createElement("div");
   overlay.className = "yes-overlay";
   overlay.innerHTML = `
-    <img src="${gif}" loading="eager">
-    <div class="yes-text">Ayyo 😂❤️<br>Valentine confirmed!</div>
+    <img src="https://media.tenor.com/NE0S8O0z4o0AAAAC/cute-cat-love.gif">
+    <div class="yes-text">Awww 😽❤️<br>Valentine confirmed!</div>
   `;
   document.body.appendChild(overlay);
 
