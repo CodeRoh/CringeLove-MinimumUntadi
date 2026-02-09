@@ -22,8 +22,8 @@ body {
 .heart {
   position: fixed;
   bottom: -30px;
-  font-size: 24px;
-  animation: floatUp 6s linear forwards;
+  font-size: 22px;
+  animation: floatUp 7s linear forwards;
   pointer-events: none;
   z-index: 1;
 }
@@ -38,7 +38,7 @@ body {
 /* CARD */
 .card {
   background: white;
-  padding: 32px 20px;
+  padding: 30px 18px;
   border-radius: 16px;
   width: 320px;
   text-align: center;
@@ -55,16 +55,16 @@ h1 {
 .buttons {
   position: relative;
   height: 180px;
-  margin-top: 20px;
+  margin-top: 18px;
 }
 
 /* YES */
 #yesBtn {
   position: absolute;
   left: 50%;
-  top: 60px;
+  top: 58px;
   transform: translateX(-50%);
-  padding: 12px 26px;
+  padding: 12px 24px;
   font-size: 18px;
   border-radius: 30px;
   border: none;
@@ -77,9 +77,9 @@ h1 {
 #noBtn {
   position: absolute;
   left: 50%;
-  top: 120px;
+  top: 118px;
   transform: translateX(-50%);
-  padding: 12px 26px;
+  padding: 12px 24px;
   font-size: 18px;
   border-radius: 30px;
   border: none;
@@ -91,14 +91,14 @@ h1 {
 /* NO TEXT */
 .no-text {
   position: absolute;
-  top: -32px;
+  top: -30px;
   left: 50%;
   transform: translateX(-50%);
   background: black;
   color: white;
-  padding: 6px 12px;
+  padding: 5px 10px;
   border-radius: 12px;
-  font-size: 13px;
+  font-size: 12px;
   white-space: nowrap;
   z-index: 99;
 }
@@ -107,7 +107,7 @@ h1 {
 .yes-overlay {
   position: fixed;
   inset: 0;
-  background: rgba(0,0,0,0.7);
+  background: rgba(0,0,0,0.72);
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -115,16 +115,19 @@ h1 {
   z-index: 999;
 }
 
+/* COMPRESSED GIF DISPLAY */
 .yes-overlay img {
-  width: 280px;
-  max-width: 90%;
-  border-radius: 20px;
+  width: 200px;          /* visually compressed */
+  max-width: 80%;
+  border-radius: 16px;
+  image-rendering: auto;
+  will-change: transform;
 }
 
 .yes-text {
   color: white;
-  font-size: 1.5rem;
-  margin-top: 20px;
+  font-size: 1.3rem;
+  margin-top: 16px;
   text-align: center;
 }
 </style>
@@ -159,9 +162,9 @@ function spawnHeart() {
   h.textContent = Math.random() > 0.5 ? "❤️" : "💖";
   h.style.left = Math.random() * 100 + "vw";
   document.body.appendChild(h);
-  setTimeout(() => h.remove(), 6000);
+  setTimeout(() => h.remove(), 7000);
 }
-setInterval(spawnHeart, 600);
+setInterval(spawnHeart, 700);
 
 /* TELANGANA TEXTS */
 const texts = [
@@ -176,20 +179,20 @@ const texts = [
   "Heart already YES annadi ❤️"
 ];
 
-/* BRAHMANANDAM GIFS (ALL) */
+/* BRAHMANANDAM GIFS — LOCKED */
 const brahmanandamGifs = [
-  "https://i.giphy.com/media/3ohhwsCGY1xH3JXJsc/giphy.gif",
-  "https://i.giphy.com/media/l4FGpP4lxGGgK5CBW/giphy.gif",
-  "https://i.giphy.com/media/26ufdipQqU2lhNA4g/giphy.gif",
-  "https://media.tenor.com/_yZlR5J9G1QAAAAC/brahmanandam-laugh.gif"
+  "https://media.tenor.com/_yZlR5J9G1QAAAAC/brahmanandam-laugh.gif",
+  "https://media.tenor.com/Z8f9QH0z4nEAAAAC/brahmanandam-comedy.gif",
+  "https://media.tenor.com/9m2Q0g9l6xUAAAAC/brahmanandam-reaction.gif",
+  "https://media.tenor.com/9k1kX7c8vXAAAAAC/brahmanandam-funny.gif"
 ];
 
 /* SAFE POSITIONS */
 const positions = [
-  { x: 20,  y: 20  },
-  { x: 200, y: 20  },
-  { x: 20,  y: 140 },
-  { x: 200, y: 140 }
+  { x: 18,  y: 18  },
+  { x: 210, y: 18  },
+  { x: 18,  y: 140 },
+  { x: 210, y: 140 }
 ];
 
 /* MOVE NO */
@@ -208,7 +211,7 @@ function moveNo(userTriggered) {
   showText();
 }
 
-/* ONE TEXT ONLY */
+/* SINGLE TEXT */
 function showText() {
   const old = noBtn.querySelector(".no-text");
   if (old) old.remove();
@@ -229,7 +232,7 @@ noBtn.addEventListener("touchstart", e => {
   moveNo(true);
 });
 
-/* YES CLICK — RANDOM BRAHMANANDAM GIF */
+/* YES CLICK — ONLY BRAHMANANDAM */
 yesBtn.addEventListener("click", () => {
   const gif =
     brahmanandamGifs[Math.floor(Math.random() * brahmanandamGifs.length)];
@@ -237,13 +240,13 @@ yesBtn.addEventListener("click", () => {
   const overlay = document.createElement("div");
   overlay.className = "yes-overlay";
   overlay.innerHTML = `
-    <img src="${gif}">
+    <img src="${gif}" loading="eager">
     <div class="yes-text">Ayyo 😂❤️<br>Valentine confirmed!</div>
   `;
   document.body.appendChild(overlay);
 
-  for (let i = 0; i < 30; i++) {
-    setTimeout(spawnHeart, i * 120);
+  for (let i = 0; i < 24; i++) {
+    setTimeout(spawnHeart, i * 130);
   }
 });
 </script>
