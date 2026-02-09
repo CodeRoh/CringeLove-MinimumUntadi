@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Valentine?</title>
+
+<style>
+* { box-sizing: border-box; font-family: Arial, sans-serif; }
+
+body {
+  margin: 0;
+  height: 100vh;
+  background: linear-gradient(135deg, #ff758c, #ff7eb3);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  overflow: hidden;
+}
+
+/* HEARTS */
+.heart {
+  position: fixed;
+  bottom: -30px;
+  font-size: 24px;
+  animation: floatUp 6s linear forwards;
+  pointer-events: none;
+}
+
+@keyframes floatUp {
+  to {
+    transform: translateY(-120vh);
+    opacity: 0;
+  }
+}
+
+/* CARD */
+.card {
+  background: white;
+  padding: 32px 20px;
+  border-radius: 16px;
+  width: 320px;
+  text-align: center;
+  position: relative;
+  z-index: 10;
+}
+
+h1 {
+  color: #ff2e63;
+  font-size: 1.4rem;
+}
+
+/* BUTTON AREA */
+.buttons {
+  position: relative;
+  height: 180px;
+  margin-top: 20px;
+}
+
+/* YES */
+#yesBtn {
+  position: absolute;
+  left: 50%;
+  top: 60px;
+  transform: translateX(-50%);
+  padding: 12px 26px;
+  font-size: 18px;
+  border-radius: 30px;
+  border: none;
+  background: #ff2e63;
+  color: white;
+  z-index: 2;
+}
+
+/* NO */
+#noBtn {
+  position: absolute;
+  left: 50%;
+  top: 120px;
+  transform: translateX(-50%);
+  padding: 12px 26px;
+  font-size: 18px;
+  border-radius: 30px;
+  border: none;
+  background: #e0e0e0;
+  transition: left 0.3s ease, top 0.3s ease;
+  z-index: 3;
+}
+
+/* TEXT */
+.no-text {
+  position: absolute;
+  top: -30px;
+  left: 50%;
+  transform: translateX(-50%);
+  background: black;
+  color: white;
+  padding: 6px 12px;
+  border-radius: 12px;
+  font-size: 13px;
+  white-space: nowrap;
+  z-index: 99;
+}
+</style>
+</head>
+
+<body>
+
+<div class="card">
+  <h1>Subu will you be my valentine? 💖</h1>
+  <div class="buttons" id="btnArea">
+    <button id="yesBtn">Yes 💘</button>
+    <button id="noBtn">No 💔</button>
+  </div>
+</div>
+
+<script>
+const noBtn = document.getElementById("noBtn");
+const yesBtn = document.getElementById("yesBtn");
+
+/* HEARTS – SIMPLE & RELIABLE */
+setInterval(() => {
+  const heart = document.createElement("div");
+  heart.className = "heart";
+  heart.textContent = Math.random() > 0.5 ? "❤️" : "💖";
+  heart.style.left = Math.random() * 100 + "vw";
+  document.body.appendChild(heart);
+  setTimeout(() => heart.remove(), 6000);
+}, 600);
+
+/* TELANGANA TEXTS */
+const texts = [
+  "NO button only naam ke vaasthe 😂",
+  "Endi ra idi 😏",
+  "Ala kaadu amma 😂",
+  "YES nokku ra baby ❤️",
+  "Lite teesko 🙃",
+  "Ayyo almost 😄",
+  "Ee NO button pani kaadu!",
+  "Try chesthunnav ga 😂",
+  "Heart already YES annadi ❤️"
+];
+
+/* SAFE POSITIONS AROUND YES */
+const positions = [
+  { x: 20,  y: 20  },
+  { x: 200, y: 20  },
+  { x: 20,  y: 140 },
+  { x: 200, y: 140 }
+];
+
+/* MOVE NO – SIMPLE & BULLETPROOF */
+function moveNo() {
+  const pos = positions[Math.floor(Math.random() * positions.length)];
+  noBtn.style.left = pos.x + "px";
+  noBtn.style.top = pos.y + "px";
+  showText();
+}
+
+/* SHOW ONLY ONE TEXT */
+function showText() {
+  // remove existing text if present
+  const existing = noBtn.querySelector(".no-text");
+  if (existing) existing.remove();
+
+  const msg = document.createElement("div");
+  msg.className = "no-text";
+  msg.textContent = texts[Math.floor(Math.random() * texts.length)];
+  noBtn.appendChild(msg);
+
+  setTimeout(() => {
+    if (msg.parentNode) msg.remove();
+  }, 2800);
+}
+
+/* EVENTS – DESKTOP + MOBILE */
+noBtn.addEventListener("mouseenter", moveNo);
+noBtn.addEventListener("mousedown", moveNo);
+noBtn.addEventListener("touchstart", e => {
+  e.preventDefault();
+  moveNo();
+});
+
+/* YES CLICK */
+yesBtn.addEventListener("click", () => {
+  alert("YAYYY 💞 Valentine secured ❤️");
+});
+</script>
+
+</body>
+</html>
