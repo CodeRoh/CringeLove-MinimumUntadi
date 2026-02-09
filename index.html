@@ -18,7 +18,7 @@ body {
   overflow: hidden;
 }
 
-/* HEARTS */
+/* BACKGROUND HEARTS */
 .heart {
   position: fixed;
   bottom: -30px;
@@ -87,7 +87,7 @@ h1 {
   z-index: 3;
 }
 
-/* TEXT */
+/* NO TEXT */
 .no-text {
   position: absolute;
   top: -30px;
@@ -101,6 +101,31 @@ h1 {
   white-space: nowrap;
   z-index: 99;
 }
+
+/* YES OVERLAY */
+.yes-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.6);
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  z-index: 999;
+}
+
+.yes-overlay img {
+  width: 260px;
+  border-radius: 20px;
+  box-shadow: 0 20px 40px rgba(0,0,0,0.4);
+}
+
+.yes-text {
+  color: white;
+  font-size: 1.4rem;
+  margin-top: 20px;
+  text-align: center;
+}
 </style>
 </head>
 
@@ -108,7 +133,7 @@ h1 {
 
 <div class="card">
   <h1>Subu will you be my valentine? 💖</h1>
-  <div class="buttons" id="btnArea">
+  <div class="buttons">
     <button id="yesBtn">Yes 💘</button>
     <button id="noBtn">No 💔</button>
   </div>
@@ -118,15 +143,16 @@ h1 {
 const noBtn = document.getElementById("noBtn");
 const yesBtn = document.getElementById("yesBtn");
 
-/* HEARTS – SIMPLE & RELIABLE */
-setInterval(() => {
+/* FLOATING HEARTS (background & celebration) */
+function spawnHeart() {
   const heart = document.createElement("div");
   heart.className = "heart";
   heart.textContent = Math.random() > 0.5 ? "❤️" : "💖";
   heart.style.left = Math.random() * 100 + "vw";
   document.body.appendChild(heart);
   setTimeout(() => heart.remove(), 6000);
-}, 600);
+}
+setInterval(spawnHeart, 600);
 
 /* TELANGANA TEXTS */
 const texts = [
@@ -141,15 +167,15 @@ const texts = [
   "Heart already YES annadi ❤️"
 ];
 
-/* SAFE POSITIONS AROUND YES */
+/* SAFE POSITIONS */
 const positions = [
-  { x: 20,  y: 20  },
-  { x: 200, y: 20  },
-  { x: 20,  y: 140 },
+  { x: 20, y: 20 },
+  { x: 200, y: 20 },
+  { x: 20, y: 140 },
   { x: 200, y: 140 }
 ];
 
-/* MOVE NO – SIMPLE & BULLETPROOF */
+/* MOVE NO */
 function moveNo() {
   const pos = positions[Math.floor(Math.random() * positions.length)];
   noBtn.style.left = pos.x + "px";
@@ -157,9 +183,8 @@ function moveNo() {
   showText();
 }
 
-/* SHOW ONLY ONE TEXT */
+/* ONE TEXT ONLY */
 function showText() {
-  // remove existing text if present
   const existing = noBtn.querySelector(".no-text");
   if (existing) existing.remove();
 
@@ -168,12 +193,10 @@ function showText() {
   msg.textContent = texts[Math.floor(Math.random() * texts.length)];
   noBtn.appendChild(msg);
 
-  setTimeout(() => {
-    if (msg.parentNode) msg.remove();
-  }, 2800);
+  setTimeout(() => msg.remove(), 2800);
 }
 
-/* EVENTS – DESKTOP + MOBILE */
+/* EVENTS */
 noBtn.addEventListener("mouseenter", moveNo);
 noBtn.addEventListener("mousedown", moveNo);
 noBtn.addEventListener("touchstart", e => {
@@ -181,9 +204,20 @@ noBtn.addEventListener("touchstart", e => {
   moveNo();
 });
 
-/* YES CLICK */
+/* YES CLICK – CUTE CELEBRATION */
 yesBtn.addEventListener("click", () => {
-  alert("YAYYY 💞 Valentine secured ❤️");
+  const overlay = document.createElement("div");
+  overlay.className = "yes-overlay";
+  overlay.innerHTML = `
+    <img src="https://media.giphy.com/media/l4FGpP4lxGGgK5CBW/giphy.gif">
+    <div class="yes-text">YAYYY 💞<br>Valentine secured ❤️</div>
+  `;
+  document.body.appendChild(overlay);
+
+  // Extra hearts burst
+  for (let i = 0; i < 25; i++) {
+    setTimeout(spawnHeart, i * 120);
+  }
 });
 </script>
 
