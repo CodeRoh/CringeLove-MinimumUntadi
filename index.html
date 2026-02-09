@@ -140,7 +140,7 @@ h1 {
   </div>
 </div>
 
-<!-- AUDIO (preloaded) -->
+<!-- AUDIO -->
 <audio id="noSound" preload="auto">
   <source src="fahhhhh.mp3" type="audio/mpeg">
 </audio>
@@ -152,7 +152,7 @@ const noSound = document.getElementById("noSound");
 
 let noCount = 0;
 
-/* HEARTS */
+/* HEART SPAWNER */
 function spawnHeart() {
   const h = document.createElement("div");
   h.className = "heart";
@@ -176,19 +176,27 @@ const texts = [
   "Heart already YES annadi ❤️"
 ];
 
+/* BRAHMANANDAM GIFS (ALL) */
+const brahmanandamGifs = [
+  "https://i.giphy.com/media/3ohhwsCGY1xH3JXJsc/giphy.gif",
+  "https://i.giphy.com/media/l4FGpP4lxGGgK5CBW/giphy.gif",
+  "https://i.giphy.com/media/26ufdipQqU2lhNA4g/giphy.gif",
+  "https://media.tenor.com/_yZlR5J9G1QAAAAC/brahmanandam-laugh.gif"
+];
+
 /* SAFE POSITIONS */
 const positions = [
-  { x: 20, y: 20 },
-  { x: 200, y: 20 },
-  { x: 20, y: 140 },
+  { x: 20,  y: 20  },
+  { x: 200, y: 20  },
+  { x: 20,  y: 140 },
   { x: 200, y: 140 }
 ];
 
-/* MOVE NO (user-gesture safe) */
-function moveNo(triggeredByUser) {
+/* MOVE NO */
+function moveNo(userTriggered) {
   noCount++;
 
-  if (triggeredByUser && noCount >= 2) {
+  if (userTriggered && noCount >= 2) {
     noSound.currentTime = 0;
     noSound.play().catch(() => {});
   }
@@ -213,7 +221,7 @@ function showText() {
   setTimeout(() => t.remove(), 2800);
 }
 
-/* EVENTS (click/touch only for sound) */
+/* EVENTS */
 noBtn.addEventListener("mouseenter", () => moveNo(false));
 noBtn.addEventListener("mousedown", () => moveNo(true));
 noBtn.addEventListener("touchstart", e => {
@@ -221,16 +229,17 @@ noBtn.addEventListener("touchstart", e => {
   moveNo(true);
 });
 
-/* YES CLICK — BRAHMANANDAM GIF */
+/* YES CLICK — RANDOM BRAHMANANDAM GIF */
 yesBtn.addEventListener("click", () => {
+  const gif =
+    brahmanandamGifs[Math.floor(Math.random() * brahmanandamGifs.length)];
+
   const overlay = document.createElement("div");
   overlay.className = "yes-overlay";
-
   overlay.innerHTML = `
-    <img src="https://i.giphy.com/media/3ohhwsCGY1xH3JXJsc/giphy.gif">
+    <img src="${gif}">
     <div class="yes-text">Ayyo 😂❤️<br>Valentine confirmed!</div>
   `;
-
   document.body.appendChild(overlay);
 
   for (let i = 0; i < 30; i++) {
